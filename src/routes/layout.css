@@ -1,0 +1,32 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
+
+@theme {
+  /* Mocha palette inspiration */
+  --color-mocha-base: #1e1e2e;
+  --color-mocha-mantle: #181825;
+  --color-mocha-crust: #11111b;
+  --color-mocha-surface0: #313244;
+  --color-mocha-surface1: #45475a;
+  --color-mocha-overlay0: #6c7086;
+  --color-mocha-text: #cdd6f4;
+  --color-mocha-subtext0: #a6adc8;
+  --color-mocha-subtext1: #bac2de;
+  --color-coffee-foam: #f5e0dc; /* Rosewater */
+  --color-coffee-latte: #fab387; /* Peach */
+  --color-coffee-bean: #45475a; 
+  --color-accent-blue: #89b4fa;
+  --color-accent-pink: #f5c2e7;
+
+  /* Font */
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+    @apply bg-mocha-crust text-mocha-text font-sans antialiased selection:bg-coffee-latte selection:text-mocha-base;
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold tracking-tight text-coffee-foam;
+  }
+}
