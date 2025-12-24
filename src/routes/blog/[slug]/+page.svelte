@@ -1,11 +1,62 @@
 <script lang="ts">
-	import { Calendar, Clock, ChevronLeft } from 'lucide-svelte';
+	import { Calendar, Clock, ChevronLeft, Copy, Check } from 'lucide-svelte';
+	import '$lib/mocha.css';
+	import { onMount } from 'svelte';
 
 	let { data } = $props();
+	let copiedStates: { [key: string]: boolean } = $state({});
+
+	onMount(() => {
+		// Add copy buttons to all code blocks
+		const codeBlocks = document.querySelectorAll('pre code.hljs');
+		codeBlocks.forEach((block, index) => {
+			const pre = block.parentElement;
+			if (pre) {
+				// Create wrapper for positioning
+				const wrapper = document.createElement('div');
+				wrapper.className = 'code-block-wrapper relative';
+				pre.parentNode?.insertBefore(wrapper, pre);
+				wrapper.appendChild(pre);
+
+				// Create copy button
+				const copyBtn = document.createElement('button');
+				copyBtn.className = 'copy-btn absolute top-3 right-3 p-2 rounded-md bg-mocha-surface1 hover:bg-mocha-surface2 text-mocha-text transition-colors opacity-0 group-hover:opacity-100';
+				copyBtn.innerHTML = `
+					<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+					</svg>
+				`;
+				
+				copyBtn.addEventListener('click', async () => {
+					const code = block.textContent || '';
+					try {
+						await navigator.clipboard.writeText(code);
+						copyBtn.innerHTML = `
+							<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+							</svg>
+						`;
+						setTimeout(() => {
+							copyBtn.innerHTML = `
+								<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+								</svg>
+							`;
+						}, 2000);
+					} catch (err) {
+						console.error('Failed to copy code:', err);
+					}
+				});
+
+				wrapper.appendChild(copyBtn);
+				wrapper.classList.add('group');
+			}
+		});
+	});
 </script>
 
 <svelte:head>
-	<title>{data.post.title} | DevBrew</title>
+	<title>{data.post.title} | Bisher Al Masri</title>
 </svelte:head>
 
 <div class="mx-auto max-w-3xl py-12">

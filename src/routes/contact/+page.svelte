@@ -3,7 +3,7 @@
 </script>
 
 <svelte:head>
-	<title>Contact | DevBrew</title>
+	<title>Contact | Bisher Al Masri</title>
 </svelte:head>
 
 <div class="mx-auto max-w-4xl px-4 py-12">
@@ -12,7 +12,7 @@
 			<div class="space-y-4">
 				<h1 class="text-4xl font-bold text-coffee-foam">Let's Chat</h1>
 				<p class="text-lg text-mocha-subtext0">
-					Have a project in mind or just want to discuss the best coffee beans? Send me a message!
+					Have a project in mind or want to ask me anything? Send me a message!
 				</p>
 			</div>
 

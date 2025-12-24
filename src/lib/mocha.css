@@ -1,0 +1,55 @@
+/* Import highlight.js mocha theme for syntax highlighting */
+@import 'highlight.js/styles/base16/mocha.css';
+
+/* Code block wrapper for copy button positioning */
+.code-block-wrapper {
+    position: relative;
+}
+
+/* Additional custom styles for code blocks */
+.hljs {
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin: 1rem 0;
+    overflow-x: auto;
+    font-size: 0.875rem; /* Smaller font size */
+    line-height: 1.5;
+    max-height: 400px; /* Limit height for very long code blocks */
+    overflow-y: auto;
+}
+
+/* Ensure code blocks work well with the prose styling */
+.prose .hljs {
+    background-color: var(--hljs-background) !important;
+}
+
+/* Style inline code differently from code blocks */
+.prose :not(pre) > code {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 0.125rem 0.25rem;
+    border-radius: 0.25rem;
+    font-size: 0.875em;
+}
+
+/* Copy button styling */
+.copy-btn {
+    transition: opacity 0.2s ease-in-out;
+}
+
+.copy-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive code block sizing */
+@media (max-width: 768px) {
+    .hljs {
+        font-size: 0.8rem;
+        padding: 0.75rem;
+    }
+}
+
+/* Ensure pre elements don't overflow */
+.prose pre {
+    max-width: 100%;
+    overflow-x: auto;
+}

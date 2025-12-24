@@ -9,7 +9,7 @@
 
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
 
-<div class="flex min-h-screen flex-col bg-mocha-base font-sans text-mocha-text">
+<div class="flex min-h-screen flex-col bg-mocha-mantle font-mono text-mocha-text">
 	<Navbar />
 
 	<main class="mx-auto w-full max-w-7xl grow px-4 pt-24 md:px-6">

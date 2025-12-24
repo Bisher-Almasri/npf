@@ -3,29 +3,54 @@
 
 	const experience = [
 		{
-			role: 'Lorem ipsum dolor sit amet',
-			company: 'Lorem ipsum dolor sit amet',
-			period: 'Lorem ipsum dolor sit amet',
+			role: 'Freelance Developer',
+			company: 'Freelance',
+			period: 'Feb 2024 - Present',
+			location: 'Ontario, Canada',
 			description:
-				'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec metus nec metus feugiat placerat. Nullam nec metus nec metus feugiat placerat.'
+				'Designing and developing custom websites for early stage startups and individual clients, including Remotely. Contributing to the development of specific pages and features for startup websites, including CasPrep. Working one on one with clients to gather requirements, design user friendly interfaces, and implement responsive layouts. Building and deploying modern web applications with a focus on performance, usability, and maintainability. Earned over $750 through freelance web development projects.',
+			skills: [
+				'Svelte',
+				'React.js',
+				'Express.js',
+				'Amazon Web Services (AWS)',
+				'Mobile Application Development',
+				'Client Communication',
+				'Responsive Web Design',
+				'Ruby on Rails'
+			]
 		},
 		{
-			role: 'Lorem ipsum dolor sit amet',
-			company: 'Lorem ipsum dolor sit amet',
-			period: 'Lorem ipsum dolor sit amet',
-			description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec metus nec metus feugiat placerat. Nullam nec metus nec metus feugiat placerat.'
+			role: 'FIRST Tech Challenge Robotics (Team 27158)',
+			company: 'Alfajrulbassem Academy',
+			period: 'Apr 2025 - Present',
+			location: 'Oakville, Ontario, Canada',
+			description:
+				'Serving as a programmer contributing to robot software development for FIRST Tech Challenge competitions. Designing and implementing autonomous routines using math based logic for auto shooting and motion control. Contributing to TeleOp control systems and tune code for competition performance. Designing and maintaining the team website to showcase engineering work and competition progress. Achieved third place finishes in competition two qualifiers in a row and earned the Design Award and Reach Award.',
+			skills: [
+				'Team Leadership',
+				'Mathematics',
+				'FIRST Robotics',
+				'Svelte',
+				'Java',
+				'Web Design',
+				'Robotics'
+			]
 		},
 		{
-			role: 'Lorem ipsum dolor sit amet',
-			company: 'Lorem ipsum dolor sit amet',
-			period: 'Lorem ipsum dolor sit amet',
-			description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec metus nec metus feugiat placerat. Nullam nec metus nec metus feugiat placerat.'
-		}
+			role: 'White Oaks Vex Robotics Club (Team 8433V)',
+			company: 'White Oaks Secondary School',
+			period: 'Oct 2025 - Present',
+			location: 'Oakville, Ontario, Canada',
+			description:
+				'Developing and maintaining drivetrain control code for a VEX competition robot. Contributing to autonomous routines, including motion logic and sensor based behavior. Assisting with testing, debugging, and tuning robot code under competition constraints. Documenting technical design decisions and programming logic in the engineering notebook.',
+			skills: ['Team Coordination', 'C++', 'Team Building', 'Python', 'Robotics']
+		},
 	];
 </script>
 
 <svelte:head>
-	<title>About | DevBrew</title>
+	<title>About | Bisher Al Masri</title>
 </svelte:head>
 
 <div class="mx-auto max-w-3xl space-y-20 py-12">
@@ -33,14 +58,14 @@
 		<h1 class="text-4xl font-bold text-coffee-foam md:text-5xl">About Me</h1>
 		<div class="prose prose-lg text-mocha-subtext0 prose-invert">
 			<p>
-				Hi there! I'm a passionate developer with a love for clean code and good coffee. I started
-				my journey back in 2018 when I wrote my first line of HTML, and I've been hooked ever since.
+				Hi there! I'm a Bisher Al Masri, a passionate developer who loves to create and solve problems. I started
+				my journey back in 2019 when i was 8 years old when I wrote my first line of HTML, and I've been hooked ever since.
 			</p>
 			<p>
 				My philosophy is simple: <span class="font-medium text-coffee-latte"
-					>functionality meets aesthetics</span
-				>. I believe that a website shouldn't just work well—it should feel good to use. When I'm
-				not coding, you can find me exploring local coffee shops, reading sci-fi novels, or gaming.
+					>I understand how it works, and I make it functional</span
+				>. I believe that software shouldn't just look good, it should be architecturally sound,
+				performant, and reliable.
 			</p>
 		</div>
 	</section>
@@ -65,9 +90,21 @@
 						</span>
 						<h3 class="text-xl font-bold text-mocha-text">{job.role}</h3>
 						<p class="text-mocha-subtext1">{job.company}</p>
+						<p class="text-sm text-mocha-subtext1/80">{job.location}</p>
 						<p class="max-w-xl leading-relaxed text-mocha-subtext0">
 							{job.description}
 						</p>
+						{#if job.skills && job.skills.length > 0}
+							<div class="flex flex-wrap gap-2 pt-2">
+								{#each job.skills as skill}
+									<span
+										class="rounded-full bg-mocha-surface0 px-3 py-1 text-xs font-medium text-coffee-foam"
+									>
+										{skill}
+									</span>
+								{/each}
+							</div>
+						{/if}
 					</div>
 				</div>
 			{/each}

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ExternalLink, Github } from 'lucide-svelte';
+	import { ArrowUpRight, ExternalLink, Github } from 'lucide-svelte';
 
 	const projects = [
 		{
@@ -33,7 +33,7 @@
 </script>
 
 <svelte:head>
-	<title>Projects | DevBrew</title>
+	<title>Projects | Bisher Al Masri</title>
 </svelte:head>
 
 <div class="mx-auto max-w-6xl space-y-12 py-12">
@@ -94,5 +94,11 @@
 				</div>
 			</div>
 		{/each}
+	</div>
+	<!-- voew more btn -->
+	<div class="flex items-center justify-center">
+		<a href="https://github.com/bisher-almasri" class="text-md flex items-center gap-2 link">
+			<ArrowUpRight class="h-4 w-4" /> View More
+		</a>
 	</div>
 </div>

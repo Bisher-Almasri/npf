@@ -5,7 +5,7 @@
 </script>
 
 <svelte:head>
-	<title>Blog | DevBrew</title>
+	<title>Blog | Bisher Al Masri</title>
 </svelte:head>
 
 <div class="mx-auto max-w-4xl space-y-12 py-12">
