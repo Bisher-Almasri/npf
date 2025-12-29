@@ -59,7 +59,7 @@
 		<div class="prose prose-lg text-mocha-subtext0 prose-invert">
 			<p>
 				Hi there! I'm a Bisher Al Masri, a passionate developer who loves to create and solve problems. I started
-				my journey back in 2019 when i was 8 years old when I wrote my first line of HTML, and I've been hooked ever since.
+				my journey back in 2020 when i was 9 years old when I wrote my first line of HTML, and I've been hooked ever since.
 			</p>
 			<p>
 				My philosophy is simple: <span class="font-medium text-coffee-latte"

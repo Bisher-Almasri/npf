@@ -17,7 +17,7 @@
 	<div class="grid gap-8">
 		{#each data.posts as post}
 			<article
-				class="group relative rounded-2xl border border-mocha-surface1 bg-mocha-surface0 p-8 transition-all hover:border-coffee-latte hover:shadow-lg"
+				class="group relative rounded-2xl border border-transparent p-8 transition-all hover:border-coffee-latte"
 			>
 				<div
 					class="mb-4 flex flex-col items-start justify-between gap-6 md:flex-row md:items-center"

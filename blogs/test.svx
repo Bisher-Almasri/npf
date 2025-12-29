@@ -1,24 +1,11 @@
 +++
-title = "test"
-description = "test"
-tags = ["test", "test2"]
-date = "2025-12-24"
-summary = "test"
+title = "Hello World"
+description = "My first blog post"
+tags = ["svelte", "blog", "mdsvex", "portfolio"]
+date = "2025-12-29"
+summary = "My first blog post"
 +++
 
-# test
+# Who am I?
 
-## test2
-
-```python
-x = 5
-
-def test():
-    print(x)
-
-test()
-```
-
-- test
-- test2
-- test3
+My name is Bisher Al Masri, a software engineer who loves to create. I am currently at White Oaks Secondary School, I love Computer Science, as my passion started at 2020 (when I was 9). Currently I freelancing as a software engineer.
