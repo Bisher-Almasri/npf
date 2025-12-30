@@ -56,7 +56,7 @@
 	<title>{data.post.title} | Bisher Al Masri</title>
 </svelte:head>
 
-<div class="mx-auto max-w-[90%] md:max-w-[80%] py-12">
+<div class="mx-auto max-w-[90%] py-12 md:max-w-[80%]">
 	<a
 		href="/blog"
 		class="group mb-8 inline-flex items-center gap-2 text-mocha-subtext0 transition-colors hover:text-coffee-latte"
@@ -75,7 +75,10 @@
 				>
 			</div>
 
-			<h1 class="text-5xl leading-tight font-bold text-coffee-foam md:text-6xl">
+			<h1
+				class="mx-auto w-fit text-5xl leading-tight font-bold text-coffee-foam md:text-6xl"
+				style="view-transition-name: blog-title-{data.post.slug}"
+			>
 				{data.post.title}
 			</h1>
 

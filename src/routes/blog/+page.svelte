@@ -40,7 +40,8 @@
 				</div>
 
 				<h2
-					class="mb-3 text-2xl font-bold text-mocha-text transition-colors group-hover:text-coffee-latte"
+					class="mb-3 w-fit text-2xl font-bold text-mocha-text transition-colors group-hover:text-coffee-latte"
+					style="view-transition-name: blog-title-{post.slug}"
 				>
 					<a href="/blog/{post.slug}" class="before:absolute before:inset-0">
 						{post.title}

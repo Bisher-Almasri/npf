@@ -5,11 +5,11 @@
 	let isOpen = $state(false);
 
 	const links = [
-		{ href: '/', label: '~/' },
-		{ href: '/about', label: '~/about' },
-		{ href: '/projects', label: '~/projects' },
-		{ href: '/blog', label: '~/blog' },
-		{ href: '/contact', label: '~/contact' }
+		{ href: '/', label: 'Home' },
+		{ href: 'about', label: 'About' },
+		{ href: 'projects', label: 'Projects' },
+		{ href: 'blog', label: 'Blog' },
+		{ href: 'contact', label: 'Contact' }
 	];
 
 	function toggleMenu() {
@@ -24,10 +24,10 @@
 		<a href="/" class="group flex items-center gap-2">
 			<span class="font-mono text-xl font-bold tracking-wide text-coffee-foam"
 				>~<span class="text-coffee-latte"
-					>{$page.url.pathname === '/' ? '/' : $page.url.pathname}</span
-				></span
-			>
-		</a>
+					>{$page.url.pathname === '/' ? '/' : $page.url.pathname + '/'}</span
+				></span> 
+				<!-- blinking cursor -->
+				<span class="cursor-blink bg-coffee-latte h-5 w-2 -m-1" aria-hidden="true"></span>		</a>
 
 		<div class="hidden items-center gap-8 md:flex">
 			{#each links as link}
@@ -93,5 +93,18 @@
 	}
 	.animate-fade-in-down {
 		animation: fade-in-down 0.2s ease-out forwards;
+	}
+	@keyframes blink {
+		0%,
+		100% {
+			opacity: 1; /* Fully visible */
+		}
+		50% {
+			opacity: 0; /* Invisible */
+		}
+	}
+
+	.cursor-blink {
+		animation: blink 2s cubic-bezier(0.2, 1, 0.8, 1) infinite;
 	}
 </style>
