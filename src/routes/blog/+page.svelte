@@ -10,8 +10,8 @@
 
 <div class="mx-auto max-w-4xl space-y-12 py-12">
 	<div class="space-y-4 text-center">
-		<h1 class="text-4xl font-bold text-coffee-foam md:text-5xl">The Coffee Break</h1>
-		<p class="text-mocha-subtext0">Thoughts, stories, and coding journals.</p>
+		<h1 class="text-4xl font-bold text-coffee-foam md:text-5xl">Blogs</h1>
+		<p class="text-mocha-subtext0">My thoughts on stuff.</p>
 	</div>
 
 	<div class="grid gap-8">

@@ -9,3 +9,8 @@ summary = "My first blog post"
 # Who am I?
 
 My name is Bisher Al Masri, a software engineer who loves to create. I am currently at White Oaks Secondary School, I love Computer Science, as my passion started at 2020 (when I was 9). Currently I freelancing as a software engineer.
+
+```py
+e = 5
+print(e)
+```
