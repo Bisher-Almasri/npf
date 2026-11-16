@@ -1,0 +1,87 @@
++++
+title = "SpliTerm: A Terminal Built With Tauri, SvelteKit and Rust"
+description = "Notes on building and shipping SpliTerm"
+tags = ["tauri", "rust", "svelte", "terminal"]
+date = "2026-11-15"
+summary = "SpliTerm is a cross-platform terminal with split panes. Here is the stack, how the project is laid out, and how to build it for macOS and Windows."
++++
+
+SpliTerm is a cross-platform terminal application with split panes. It is built with [Tauri 2](https://tauri.app/), [SvelteKit](https://svelte.dev/), TypeScript and Rust, and the code is on GitHub at [Bisher-Almasri/SpliTerm](https://github.com/Bisher-Almasri/SpliTerm).
+
+This post covers how the project is put together and how to build it.
+
+## Why Tauri
+
+A terminal emulator needs two very different things. It needs a fast, safe backend that deals with the operating system (processes, pseudo-terminals, files), and it needs a flexible interface that can draw text, lay out panes and handle keyboard input.
+
+Tauri splits that cleanly:
+
+- **Rust** does the system work in the backend.
+- **SvelteKit and TypeScript** do the interface, using the web technologies I already know well.
+- The app uses the operating system's own webview, so installers stay small compared to bundling a whole browser.
+
+## Project structure
+
+```text
+src/        SvelteKit frontend
+src-tauri/  Rust/Tauri desktop application
+static/     Static frontend assets
+build/      Generated frontend output
+```
+
+The frontend is a normal SvelteKit app. The Rust side lives in `src-tauri/` and is the part that is compiled into the native application. The two talk to each other through Tauri's command and event system.
+
+## Getting started
+
+You need the Tauri prerequisites for your operating system first.
+
+On macOS, install the command line tools if you do not have them:
+
+```bash
+xcode-select --install
+```
+
+On Windows, install the **Desktop development with C++** workload from the Visual Studio Installer. WebView2 ships with current versions of Windows, but install the Evergreen WebView2 Runtime if it is missing.
+
+You also need Rust and a JavaScript runtime. I use [Bun](https://bun.sh):
+
+```bash
+git clone https://github.com/Bisher-Almasri/SpliTerm.git
+cd SpliTerm
+bun install
+bun run tauri dev
+```
+
+`tauri dev` starts the SvelteKit dev server and the Rust app together, and reloads the interface when you change a Svelte file.
+
+## Building for macOS
+
+```bash
+bun run tauri build
+```
+
+The output is under `src-tauri/target/release/bundle/` and typically includes a `.app` and a `.dmg`. The build targets the architecture of the Mac you run it on. To share it outside your own machine, you need to set up Apple code signing and notarization in the Tauri config, or macOS will warn people before opening it.
+
+## Building for Windows
+
+Run the same command in PowerShell on a Windows machine:
+
+```powershell
+bun run tauri build
+```
+
+The installers are written under `src-tauri\target\release\bundle\`, typically an `.msi` and/or a setup `.exe`. As on macOS, configure code signing before you distribute the installer.
+
+## Cross-platform releases
+
+Tauri builds for the operating system it runs on, so there is no simple flag to produce a Windows build from a Mac. The reliable approach is:
+
+1. Build the macOS release on macOS.
+2. Build the Windows release on Windows.
+3. Upload the installers from each platform's `bundle/` directory.
+
+If you want to automate this, a CI matrix that runs the build on a macOS runner and a Windows runner gives you both from one push.
+
+## What is next
+
+SpliTerm is young and I am still working on it. If you want to try it or have ideas for what a terminal should do, open an issue on the repo.

@@ -10,32 +10,15 @@
 		Newspaper,
 		ExternalLink,
 		User,
-		Code2
+		Code2,
+		Trophy
 	} from 'lucide-svelte';
 	import BentoItem from '$lib/components/BentoItem.svelte';
+	import { projects } from '$lib/projects';
 
 	let { data } = $props();
 
-	const featuredProjects = [
-		{
-			title: 'Silk',
-			description: 'A voxel game engine built with C++ and OpenGL.',
-			tags: ['C++', 'Game Engine', '3D'],
-			link: '#',
-			github: '#',
-			image:
-				'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
-		},
-		{
-			title: 'BigroOS',
-			description: 'A 32-bit x86 operating system built with C and GNU Asm.',
-			tags: ['C', 'Assembly', 'OS', 'Kernel'],
-			link: '#',
-			github: '#',
-			image:
-				'https://images.unsplash.com/photo-1629654297299-c8506221ca97?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
-		}
-	];
+	const featuredProjects = projects.filter((p) => p.featured);
 
 	let currentTime = $state('00:00 AM');
 
@@ -81,9 +64,11 @@
 				</div>
 
 				<p class="max-w-2xl text-base leading-relaxed text-mocha-subtext1">
-					I build code that works. Currently working on robotics: <span
-						class="font-medium text-coffee-latte">FTC & VEX</span
+					I build code that works. Just won <span class="font-medium text-coffee-latte"
+						>Haven Toronto</span
 					>
+					with HedgeHog Bounce, and I'm currently working on robotics:
+					<span class="font-medium text-coffee-latte">FTC & VEX</span>
 					and my own 3d game engine <span class="font-medium text-coffee-latte">Silk</span>.
 				</p>
 
@@ -170,11 +155,18 @@
 
 	{#each featuredProjects as project}
 		<div class="md:col-span-3">
-			<BentoItem href={project.link} class="group relative min-h-[280px] overflow-hidden p-0!">
-				<div
-					class="absolute inset-0 rounded-xl bg-cover bg-center opacity-50 transition-transform duration-700 group-hover:scale-105 group-hover:opacity-30"
-					style="background-image: url('{project.image}');"
-				></div>
+			<BentoItem
+				href={project.github ?? project.link}
+				class="group relative min-h-[280px] overflow-hidden p-0!">
+				{#if project.image}
+					<img
+						src={project.image}
+						alt=""
+						loading="lazy"
+						decoding="async"
+						class="absolute inset-0 h-full w-full rounded-xl object-cover opacity-50 transition-transform duration-700 group-hover:scale-105 group-hover:opacity-30"
+					/>
+				{/if}
 				<div
 					class="absolute inset-0 rounded-xl bg-linear-to-t from-mocha-base via-mocha-base/60 to-transparent"
 				></div>
@@ -182,9 +174,12 @@
 				<div class="relative z-10 flex h-full flex-col justify-between p-8">
 					<div class="flex items-start justify-between">
 						<span
-							class="rounded-md border border-mocha-surface1 bg-mocha-base/90 px-3 py-1 font-mono text-xs font-bold text-accent-pink backdrop-blur-none"
+							class="flex items-center gap-1 rounded-md border px-3 py-1 font-mono text-xs font-bold backdrop-blur-none {project.badge
+								? 'border-coffee-latte bg-mocha-base/90 text-coffee-latte'
+								: 'border-mocha-surface1 bg-mocha-base/90 text-accent-pink'}"
 						>
-							{project.tags[0]}
+							{#if project.badge}<Trophy size={12} />{/if}
+							{project.badge ?? project.tags[0]}
 						</span>
 						<div
 							class="rounded-md border border-transparent bg-mocha-base/90 p-2 text-mocha-text backdrop-blur-none transition-colors group-hover:border-coffee-latte group-hover:text-coffee-latte"

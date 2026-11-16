@@ -3,6 +3,15 @@
 
 	const experience = [
 		{
+			role: 'Winner, Haven Toronto Game Jam',
+			company: 'Hack Club',
+			period: 'Nov 2026',
+			location: 'Toronto, Ontario, Canada',
+			description:
+				'Won Haven Toronto, a two day game jam for teens, with HedgeHog Bounce: a 2.5D Godot game about a lost hedgehog bouncing, rolling and slamming its way home. Built the hand-drawn 2D art on a real 3D world with Jolt physics, multiple levels with medals and top-5 leaderboards, and all audio generated in code.',
+			skills: ['Godot', 'GDScript', 'Game Design', 'Teamwork', '3D']
+		},
+		{
 			role: 'Freelance Developer',
 			company: 'Freelance',
 			period: 'Feb 2024 - Present',

@@ -1,8 +1,8 @@
 import { error } from '@sveltejs/kit';
 import { getPost } from '$lib/blogs';
-import type { PageLoad } from './$types';
+import type { PageServerLoad } from './$types';
 
-export const load: PageLoad = async ({ params }) => {
+export const load: PageServerLoad = async ({ params }) => {
 	const post = await getPost(params.slug);
 	
 	if (!post) {

@@ -1,0 +1,106 @@
++++
+title = "Why My Portfolio Took So Long to Load"
+description = "Fixing a slow SvelteKit portfolio"
+tags = ["svelte", "sveltekit", "performance", "portfolio"]
+date = "2026-11-16"
+summary = "A scraper that never worked, render-blocking fonts, remote images and a bundle full of code that only needed to run on the server."
++++
+
+My portfolio was slow, and I knew it. It is a SvelteKit site with five pages and some text, so it should have been instant. Here is what was actually wrong and how I fixed it.
+
+## 1. The homepage scraped a website on every request
+
+The homepage has a "Total Installs" card for my VS Code extensions. The server load function fetched my Marketplace page and parsed it with cheerio before it could render anything:
+
+```ts
+const vsCodeRes = await fetch('https://marketplace.visualstudio.com/publishers/BisherAlmasri');
+const $ = cheerio.load(await vsCodeRes.text());
+
+$('.install-count').each((i, el) => {
+	// add up the counts
+});
+
+if (vsCodeInstalls === 0) vsCodeInstalls = 9500;
+```
+
+Every visitor waited for that request to finish. When I tested it, the response was about 50 KB and took roughly 0.3 seconds, which is already a lot of time to add before the first byte.
+
+The worse part: **it never found anything**. The Marketplace is a single-page app, so the HTML I downloaded contained zero `.install-count` elements. The code always fell through to the `9500` fallback. I had been paying for a network request on every page load to get a number I had already hard-coded.
+
+The fix was to delete the scraper and keep the numbers as constants. If I ever want real numbers I will fetch them at build time, not on every request.
+
+## 2. Nothing was prerendered
+
+Once the load function stopped doing network calls, I noticed the bigger issue. A portfolio has no per-user data. Every page can be plain HTML sitting on a CDN, but my pages were being rendered on a server for every request.
+
+SvelteKit makes this one line in `src/routes/+layout.ts`:
+
+```ts
+export const prerender = true;
+```
+
+With the Vercel adapter, every page is now built once at deploy time and served as a static file.
+
+## 3. Fonts blocked the first paint
+
+The `app.html` template loaded JetBrains Mono from Google Fonts:
+
+```html
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono..." rel="stylesheet">
+```
+
+A stylesheet in `<head>` blocks rendering, and it points at a different domain, so the browser first opens a connection to `fonts.googleapis.com`, downloads the CSS, then opens a second connection to `fonts.gstatic.com` for the actual font file.
+
+I downloaded the Latin subset of the variable font (31 KB as WOFF2), put it in `static/fonts/`, and declared it myself:
+
+```css
+@font-face {
+	font-family: 'JetBrains Mono';
+	font-style: normal;
+	font-weight: 400 700;
+	font-display: swap;
+	src: url('/fonts/jetbrains-mono-latin.woff2') format('woff2');
+}
+```
+
+Then a preload in `app.html` so the browser starts fetching it immediately:
+
+```html
+<link rel="preload" href="/fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
+```
+
+The font now comes from the same origin as the page, with no extra connections and no render-blocking stylesheet. I also removed a 128 KB custom font that was only used on the blog.
+
+## 4. Remote images
+
+The project cards used stock photos from Unsplash. They were loaded from a third-party domain at a size and quality I did not control.
+
+I replaced them with real screenshots of my own projects, resized to 800px wide and converted to WebP. The three images together are about 40 KB. I also added `loading="lazy"` and `decoding="async"` so the images below the fold do not compete with the content at the top.
+
+## 5. The blog shipped server code to the browser
+
+The blog used universal load functions (`+page.ts`). That means the code runs in the browser too, so the browser downloaded `marked`, `highlight.js` and the full text of every post just to render a list of titles.
+
+Renaming them to `+page.server.ts` keeps all of that on the server. The client gets only the data it needs, and it is no longer in the JavaScript bundle.
+
+## A bug found by prerendering
+
+Turning on `prerender` made the build crawl every link, and it failed straight away:
+
+```text
+Error: 404 /blog/about (linked from /blog/Hello-World)
+```
+
+The navbar used relative links like `about` instead of `/about`. On a blog post at `/blog/Hello-World`, `about` resolves to `/blog/about`. The links had been broken on every blog post the whole time, and I had never noticed. They also meant the "active page" highlight never matched, because it compared the pathname to `about` instead of `/about`.
+
+Prerendering crawls the site like a visitor would, so it is a good broken-link checker.
+
+## Takeaways
+
+- If a page does not depend on the visitor, prerender it.
+- Do not fetch third-party data on every request. Do it at build time or cache it.
+- Check that your scraper actually scrapes something. Mine had not worked for as long as it existed, and a fallback value hid it.
+- Self-host your fonts. It is one file and one `@font-face`.
+- `+page.ts` runs in the browser. If it imports something heavy, so does your visitor.

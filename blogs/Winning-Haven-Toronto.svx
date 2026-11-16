@@ -1,0 +1,79 @@
++++
+title = "We Won Haven Toronto With a Bouncing Hedgehog"
+description = "How HedgeHog Bounce won Haven Toronto"
+tags = ["gamedev", "godot", "hackclub", "gamejam"]
+date = "2026-11-16"
+summary = "A weekend, Godot 4.7, a lost hedgehog and a top-5 leaderboard: how we built HedgeHog Bounce and won Haven Toronto."
++++
+
+On November 14 and 15 I was at Haven Toronto, Hack Club's game jam for teens. Haven ran in over 200 cities at the same time, and the Toronto one is the one I went to. Our game, **HedgeHog Bounce**, won.
+
+This is a write-up of what we built and the decisions that I think made the difference.
+
+## The game
+
+HedgeHog Bounce is about a lost hedgehog trying to get home. You bounce, roll and fall your way through a forest, and the goal is to reach the big master mushroom at the end of the level, which launches you home. The fastest time wins.
+
+The controls are small on purpose:
+
+- **A / D** to move, **Space** to jump
+- **Hold Shift** to curl into a spike ball, which squishes beetles and ignores thorns
+- **Space in the air while curled** to slam down for a bigger bounce
+- **R** to retry instantly
+
+The levels are short and each one is built around a few gadgets: falling boulders, seesaw bridges, swinging chestnuts, thorn pits and chains of bouncy mushrooms.
+
+## Design for the judging format
+
+The most useful thing we did was read how the jam would be judged before writing any code. Haven judging works like a science fair: people walk up, play your game, and vote on the ones they liked best. Nobody plays for twenty minutes.
+
+That shaped almost everything:
+
+- **A voter gets one to three minutes.** The game has to make sense in seconds, so there is no story and no popup text while you play. The title screen goes to gameplay with "press any key".
+- **People compare scores.** Every level has a local top-5 table with names and times. Seeing someone else's time on the screen is a reason to try again and brag.
+- **The next visitor should see a fresh game.** The game resets back to the title screen so a new person never lands in the middle of someone else's run.
+- **Medals give a goal that is not just "be first".** Each level has gold, silver and bronze times, and the box next to the timer shows which medal you can still get.
+
+```gdscript
+# Medal times in seconds, per level
+const MEDALS = {
+	1: { "gold": 10, "silver": 13, "bronze": 15 },
+	2: { "gold": 55, "silver": 60, "bronze": 70 },
+}
+```
+
+Level 1 is short enough to finish in about fifteen seconds. Level 2 is much longer. A walk-up player can have a complete run in under a minute and still have a reason to go again.
+
+## A 3D world with 2D art
+
+The game is 2.5D. The world is real 3D, with a perspective camera, a sun that casts shadows and Jolt physics, but the hedgehog and the props use hand-drawn 2D art on flat sprites.
+
+We started with a flat 2D version built on rigid bodies. It worked, so we kept it and built the 3D game next to it, which meant we always had a playable build to fall back on. The 3D version reuses the same level tuning, HUD, scores, medals and audio as the 2D one.
+
+In the 3D game the hedgehog is a `RigidBody3D` locked to the `z = 0` plane. It never moves in depth, so it plays like a 2D platformer, but light shafts through holes in the forest floor and the parallax from the camera make it look like a diorama.
+
+## All the audio is code
+
+We shipped no audio files. Every sound effect and the music are generated in code in a single script. This kept the project small and meant we never spent time hunting for sounds or checking licences during a jam.
+
+## Tests helped more than I expected
+
+Godot can run scripts headless, so we wrote tests that run from the terminal:
+
+```bash
+godot --headless --path . --script res://game3d/tests/test_3d.gd
+```
+
+There is also a route bot that plays a level on its own. Each level lists the stretches that need a mushroom chain, so the bot can check that a level is actually finishable after we change a gadget. When you are editing level layouts late at night, a test that tells you "you just made level 2 impossible" is worth a lot.
+
+## What I would do differently
+
+- Write the jam plan and cut list on day one, not halfway through.
+- Keep the 2D and 3D games from drifting apart. Sharing the HUD and scoring code worked well, but the level layouts ended up in two places.
+- Record a short gameplay clip earlier. A screenshot does not show a bounce.
+
+## Try it
+
+The code is on GitHub at [Bisher-Almasri/haven-toronto](https://github.com/Bisher-Almasri/haven-toronto). You need [Godot 4.7](https://godotengine.org/) to run it. Open the folder as a project and press play.
+
+Thanks to Hack Club and the Haven Toronto organizers for running it, and to everyone who stopped by to play and beat our times.
