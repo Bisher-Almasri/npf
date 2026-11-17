@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Briefcase, Calendar, GraduationCap } from 'lucide-svelte';
+	import { Briefcase, Calendar, Download, GraduationCap } from 'lucide-svelte';
 
 	const experience = [
 		{
@@ -76,6 +76,16 @@
 				>. I believe that software shouldn't just look good, it should be architecturally sound,
 				performant, and reliable.
 			</p>
+		</div>
+		<div class="flex flex-wrap gap-4">
+			<a
+				href="/AlmasriResume.pdf"
+				target="_blank"
+				rel="noopener"
+				class="flex items-center gap-2 rounded-lg bg-coffee-latte px-5 py-3 font-bold text-mocha-base transition-colors hover:bg-coffee-foam"
+			>
+				View Resume <Download class="h-5 w-5" />
+			</a>
 		</div>
 	</section>
 
